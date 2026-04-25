@@ -13,7 +13,13 @@ const app = express();
 // Middleware
 app.use(helmet());
 app.use(morgan('dev'));
-app.use(cors({ origin: [/localhost:\d+$/, /127\.0\.0\.1:\d+$/], credentials: true }));
+app.use(cors({
+  origin: function (origin, callback) {
+    // Allow any origin or localhost for now to simplify deployment
+    callback(null, true);
+  },
+  credentials: true 
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
