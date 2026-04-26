@@ -13,10 +13,18 @@ const app = express();
 // Middleware
 app.use(helmet());
 app.use(morgan('dev'));
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://singhmanish56252-oss.github.io'
+];
+
 app.use(cors({
   origin: function (origin, callback) {
-    // Allow any origin or localhost for now to simplify deployment
-    callback(null, true);
+    if (!origin || allowedOrigins.indexOf(origin) !== -1 || origin.includes('github.io')) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
   },
   credentials: true 
 }));
