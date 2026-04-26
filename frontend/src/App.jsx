@@ -39,7 +39,7 @@ const Unauthorized = () => (
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/Employee_management_system">
       <AuthProvider>
         <Toaster
           position="top-right"
