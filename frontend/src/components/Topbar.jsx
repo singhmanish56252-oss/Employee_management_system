@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Bell, Search, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { getNotifications, markAllRead } from '../api/services';
 
 const Topbar = () => {
@@ -8,7 +9,7 @@ const Topbar = () => {
   const [notifications, setNotifications] = useState([]);
   const [unread, setUnread] = useState(0);
   const [showNotif, setShowNotif] = useState(false);
-  const [dark, setDark] = useState(true);
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     getNotifications()
@@ -33,8 +34,8 @@ const Topbar = () => {
 
       <div className="topbar-right">
         {/* Theme Toggle */}
-        <button className="topbar-icon-btn" onClick={() => setDark(!dark)} title="Toggle Theme">
-          {dark ? <Sun size={18} /> : <Moon size={18} />}
+        <button className="topbar-icon-btn" onClick={toggleTheme} title="Toggle Theme">
+          {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
         </button>
 
         {/* Notifications */}

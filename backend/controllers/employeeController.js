@@ -52,8 +52,34 @@ exports.getEmployee = async (req, res) => {
 // @route  POST /api/employees
 exports.createEmployee = async (req, res) => {
   try {
+    const { firstName, lastName, email, employeeType } = req.body;
+    
+    // Live User Creation: Check if user already exists
+    let user = await User.findOne({ email: email.toLowerCase() });
+    if (!user) {
+      // Determine default role based on employee type or default to employee
+      let userRole = 'employee';
+      if (req.body.designation?.toLowerCase().includes('hr') || req.body.department?.toLowerCase() === 'hr') {
+        userRole = 'hr';
+      } else if (req.body.designation?.toLowerCase().includes('admin') || req.body.department?.toLowerCase() === 'admin') {
+        userRole = 'admin';
+      }
+      
+      user = await User.create({
+        name: `${firstName} ${lastName}`,
+        email: email.toLowerCase(),
+        password: 'emp12345', // default password
+        role: userRole
+      });
+    }
+
     const employeeId = await generateEmployeeId();
-    const employee = await Employee.create({ ...req.body, employeeId });
+    const employee = await Employee.create({ 
+      ...req.body, 
+      user: user._id, 
+      employeeId 
+    });
+    
     res.status(201).json({ success: true, employee });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });

@@ -7,6 +7,12 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true, minlength: 6 },
   role:     { type: String, enum: ['admin', 'hr', 'employee'], default: 'employee' },
   avatar:   { type: String, default: '' },
+  googleId: { type: String },
+  githubId: { type: String },
+  microsoftId: { type: String },
+  authProvider: { type: String, enum: ['local', 'google', 'github', 'microsoft'], default: 'local' },
+  otpCode:  { type: String },
+  otpExpiry:{ type: Date },
   isActive: { type: Boolean, default: true },
   lastLogin:{ type: Date },
   notifications: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Notification' }]

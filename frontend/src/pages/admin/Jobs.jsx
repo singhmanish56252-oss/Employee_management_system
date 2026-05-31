@@ -5,7 +5,7 @@ import { Table, Badge, Modal, PageHeader, SearchBar, Select, Btn, Input, Paginat
 import Layout from '../../components/Layout';
 import toast from 'react-hot-toast';
 
-const BLANK = { title:'', department:'', description:'', type:'full-time', location:'', salaryMin:'', salaryMax:'', experience:'', deadline:'', status:'open', requirements:[], skills:[] };
+const BLANK = { title:'', department:'', description:'', type:'full-time', location:'', companyName:'EMS Pro Corp', companyLogo:'', workMode:'onsite', standard:'Graduate', salaryMin:'', salaryMax:'', experience:'', deadline:'', status:'open', requirements:[], skills:[] };
 const DEPTS = ['Engineering','HR','Marketing','Sales','Finance','Operations','Design','Product','Legal','Admin'];
 const TYPES = ['full-time','part-time','contract','intern'];
 
@@ -60,15 +60,29 @@ export default function Jobs() {
 
   const cols = [
     { key: 'title', label: 'Job Title', render: j => (
-      <div>
-        <div style={{ fontWeight:600, fontSize:14 }}>{j.title}</div>
-        <div style={{ fontSize:12, color:'var(--text-muted)' }}>{j.department}</div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        {j.companyLogo ? (
+          <img src={j.companyLogo} alt={j.companyName} style={{ width: 32, height: 32, borderRadius: 6, objectFit: 'cover', border: '1px solid var(--border)' }} />
+        ) : (
+          <div style={{ width: 32, height: 32, borderRadius: 6, background: 'rgba(108,99,255,0.1)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: 12 }}>
+            {j.companyName?.charAt(0) || 'E'}
+          </div>
+        )}
+        <div>
+          <div style={{ fontWeight:600, fontSize:14 }}>{j.title}</div>
+          <div style={{ fontSize:12, color:'var(--text-muted)' }}>{j.companyName} • {j.department}</div>
+        </div>
       </div>
     )},
     { key: 'type', label: 'Type', render: j => <Badge status={j.type} /> },
     { key: 'location', label: 'Location', render: j => (
-      <div style={{ display:'flex', alignItems:'center', gap:4, fontSize:13, color:'var(--text-secondary)' }}>
-        <MapPin size={12} />{j.location || 'Remote'}
+      <div style={{ display:'flex', flexDirection:'column', gap:2 }}>
+        <div style={{ display:'flex', alignItems:'center', gap:4, fontSize:13, color:'var(--text-secondary)' }}>
+          <MapPin size={12} />{j.location || 'Remote'}
+        </div>
+        <span style={{ fontSize: '10px', background: 'rgba(255,255,255,0.05)', padding: '1px 6px', borderRadius: '4px', textTransform: 'capitalize', width: 'fit-content', color: 'var(--text-muted)', fontWeight: 600 }}>
+          {j.workMode || 'onsite'}
+        </span>
       </div>
     )},
     { key: 'salary', label: 'Salary', render: j => j.salaryMin ? `₹${Number(j.salaryMin/1000).toFixed(0)}K–₹${Number(j.salaryMax/1000).toFixed(0)}K` : '—' },
@@ -124,6 +138,51 @@ export default function Jobs() {
             <label className="form-label">Status</label>
             <select className="form-select" value={form.status} onChange={e=>setForm({...form,status:e.target.value})}>
               {['open','closed','paused'].map(s=><option key={s}>{s}</option>)}
+            </select>
+          </div>
+          <Input label="Company Name *" value={form.companyName} onChange={e=>setForm({...form,companyName:e.target.value})} placeholder="EMS Pro Corp" />
+          <div className="form-group">
+            <label className="form-label">Company Logo URL</label>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <select 
+                className="form-select" 
+                style={{ width: '40%' }}
+                onChange={e => {
+                  if (e.target.value) setForm({...form, companyLogo: e.target.value});
+                }}
+              >
+                <option value="">Presets</option>
+                <option value="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&h=100&fit=crop&q=80">Tech Purple</option>
+                <option value="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=100&h=100&fit=crop&q=80">Tech Blue</option>
+                <option value="https://images.unsplash.com/photo-1560179707-f14e90ef3623?w=100&h=100&fit=crop&q=80">Corporate Orange</option>
+              </select>
+              <input 
+                className="form-input" 
+                style={{ flex: 1 }}
+                type="text" 
+                value={form.companyLogo} 
+                onChange={e=>setForm({...form,companyLogo:e.target.value})} 
+                placeholder="Or custom URL" 
+              />
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="form-label">Work Mode (Duality)</label>
+            <select className="form-select" value={form.workMode} onChange={e=>setForm({...form,workMode:e.target.value})}>
+              <option value="onsite">Onsite</option>
+              <option value="remote">Remote</option>
+              <option value="hybrid">Hybrid</option>
+            </select>
+          </div>
+          <div className="form-group">
+            <label className="form-label">Qualification Standard</label>
+            <select className="form-select" value={form.standard} onChange={e=>setForm({...form,standard:e.target.value})}>
+              <option value="Graduate">Graduate Standard</option>
+              <option value="Postgraduate">Postgraduate Standard</option>
+              <option value="B.Tech / MCA">B.Tech / MCA Standard</option>
+              <option value="MBA / PGDM">MBA / PGDM Standard</option>
+              <option value="High School">High School Standard</option>
+              <option value="Any Standard">Any Standard</option>
             </select>
           </div>
         </div>

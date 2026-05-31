@@ -7,6 +7,9 @@ export const getMe = () => API.get('/auth/me');
 export const updatePassword = (data) => API.put('/auth/update-password', data);
 export const getAllUsers = () => API.get('/auth/users');
 export const toggleUser = (id) => API.put(`/auth/users/${id}/toggle`);
+export const socialLogin = (data) => API.post('/auth/social-login', data);
+export const sendOTP = (data) => API.post('/auth/send-otp', data);
+export const verifyOTP = (data) => API.post('/auth/verify-otp', data);
 
 // Employees
 export const getEmployees = (params) => API.get('/employees', { params });

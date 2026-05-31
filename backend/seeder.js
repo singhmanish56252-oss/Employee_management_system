@@ -21,6 +21,7 @@ const seed = async () => {
 
   // Create Users
   const adminUser  = await User.create({ name:'Admin Singh', email:'admin@ems.com', password:'admin123', role:'admin' });
+  const adminUser2 = await User.create({ name:'Manish Singh', email:'singhmanish56252@gmail.com', password:'admin123', role:'admin' });
   const hrUser     = await User.create({ name:'HR Manager', email:'hr@ems.com', password:'hr123456', role:'hr' });
   const empUser1   = await User.create({ name:'Rahul Sharma', email:'emp@ems.com', password:'emp12345', role:'employee' });
   const empUser2   = await User.create({ name:'Priya Patel', email:'priya@ems.com', password:'priya123', role:'employee' });
@@ -164,9 +165,10 @@ const seed = async () => {
   console.log('\n✅ SEED COMPLETE!\n');
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
   console.log('🔐 Login Credentials:');
-  console.log('  ADMIN   → admin@ems.com    / admin123');
-  console.log('  HR      → hr@ems.com       / hr123456');
-  console.log('  EMPLOYEE→ emp@ems.com      / emp12345');
+  console.log('  ADMIN   → admin@ems.com                / admin123');
+  console.log('  ADMIN   → singhmanish56252@gmail.com    / admin123');
+  console.log('  HR      → hr@ems.com                   / hr123456');
+  console.log('  EMPLOYEE→ emp@ems.com                  / emp12345');
   console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
 
   await mongoose.disconnect();

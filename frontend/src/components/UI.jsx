@@ -1,8 +1,14 @@
 import React from 'react';
 import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export const StatCard = ({ icon: Icon, label, value, sub, trend, color = '#6c63ff' }) => (
-  <div className="stat-card" style={{ '--accent': color }}>
+  <motion.div 
+    className="stat-card" 
+    style={{ '--accent': color }}
+    whileHover={{ scale: 1.05, y: -5 }}
+    transition={{ type: "spring", stiffness: 300, damping: 20 }}
+  >
     <div className="stat-icon" style={{ background: `${color}20`, color }}>
       <Icon size={24} />
     </div>
@@ -18,7 +24,7 @@ export const StatCard = ({ icon: Icon, label, value, sub, trend, color = '#6c63f
       )}
     </div>
     <div className="stat-glow" style={{ background: color }} />
-  </div>
+  </motion.div>
 );
 
 export const Badge = ({ status }) => {

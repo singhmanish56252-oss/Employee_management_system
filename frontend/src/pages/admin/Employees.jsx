@@ -49,7 +49,7 @@ export default function Employees() {
     try {
       if (modal === 'create') {
         await createEmployee(form);
-        toast.success('Employee created successfully!');
+        toast.success(`✅ ${form.firstName} ${form.lastName} created! Login: ${form.email} / emp12345`);
       } else {
         await updateEmployee(selected._id, form);
         toast.success('Employee updated!');
@@ -109,7 +109,32 @@ export default function Employees() {
       </div>
 
       {/* Create / Edit Modal */}
-      <Modal open={modal==='create'||modal==='edit'} onClose={()=>setModal(null)} title={modal==='create'?'Add New Employee':'Edit Employee'} size="lg">
+      <Modal open={modal==='create'||modal==='edit'} onClose={()=>setModal(null)} title={modal==='create'?'➕ Add New Employee (Live)':'Edit Employee'} size="lg">
+        {/* Live Account Creation Notice - only for create mode */}
+        {modal === 'create' && (
+          <div style={{
+            background: 'rgba(108,99,255,0.08)',
+            border: '1px solid rgba(108,99,255,0.25)',
+            borderRadius: '10px',
+            padding: '14px 18px',
+            marginBottom: '20px',
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '12px'
+          }}>
+            <span style={{ fontSize: '20px', lineHeight: '1' }}>⚡</span>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '700', color: 'var(--accent)', marginBottom: '4px' }}>
+                Live Account Auto-Creation
+              </div>
+              <div style={{ fontSize: '12px', color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+                A login account will be <strong style={{ color: 'var(--text-primary)' }}>instantly created</strong> for this employee using their email address. 
+                Default password: <code style={{ background: 'var(--bg-secondary)', padding: '1px 6px', borderRadius: '4px', fontSize: '11px', fontWeight: '700', color: 'var(--accent)' }}>emp12345</code>
+                — they can sign in immediately after creation!
+              </div>
+            </div>
+          </div>
+        )}
         <div className="form-grid" style={{ gap:16 }}>
           <Input label="First Name *" value={form.firstName} onChange={e=>setForm({...form,firstName:e.target.value})} placeholder="John" />
           <Input label="Last Name *" value={form.lastName} onChange={e=>setForm({...form,lastName:e.target.value})} placeholder="Doe" />
@@ -146,7 +171,7 @@ export default function Employees() {
         <div style={{display:'flex',gap:10,justifyContent:'flex-end',marginTop:24}}>
           <Btn variant="outline" size="md" onClick={()=>setModal(null)}>Cancel</Btn>
           <Btn variant="primary" size="md" loading={saving} onClick={handleSave}>
-            {modal==='create'?'Create Employee':'Save Changes'}
+            {modal==='create'?'🚀 Create Employee & Account':'Save Changes'}
           </Btn>
         </div>
       </Modal>

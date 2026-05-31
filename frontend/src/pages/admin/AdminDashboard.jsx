@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, CartesianGrid, Legend } from 'recharts';
 import { Users, Briefcase, ClipboardList, DollarSign, Calendar, TrendingUp, UserCheck, AlertCircle } from 'lucide-react';
 import { getAdminDashboard } from '../../api/services';
@@ -39,9 +40,14 @@ export default function AdminDashboard() {
 
   return (
     <Layout>
-      <PageHeader title="Admin Dashboard" subtitle="System overview and analytics" />
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }} 
+        animate={{ opacity: 1, y: 0 }} 
+        transition={{ duration: 0.5 }}
+      >
+        <PageHeader title="Admin Dashboard" subtitle="System overview and analytics" />
 
-      {/* Welcome Banner */}
+        {/* Welcome Banner */}
       <div className="welcome-banner">
         <div className="welcome-text">
           <h2>{greeting}, {user?.name?.split(' ')[0]}! 👋</h2>
@@ -52,19 +58,32 @@ export default function AdminDashboard() {
       </div>
 
       {/* Stats */}
-      <div className="stats-grid">
-        <StatCard icon={Users} label="Total Employees" value={stats.totalEmployees || 0} sub={`${stats.activeEmployees || 0} active`} color="#6c63ff" trend={4} />
-        <StatCard icon={UserCheck} label="New This Month" value={stats.newHires || 0} sub="Recent joinings" color="#00d4aa" trend={12} />
-        <StatCard icon={Briefcase} label="Open Jobs" value={stats.openJobs || 0} sub={`${stats.totalJobs || 0} total`} color="#ff9a3c" trend={-2} />
-        <StatCard icon={ClipboardList} label="Applications" value={stats.totalApplications || 0} sub="All time" color="#ffd93d" trend={8} />
-        <StatCard icon={Calendar} label="Today Present" value={stats.todayAttendance || 0} sub="Attendance" color="#4ecdc4" />
-        <StatCard icon={AlertCircle} label="Pending Leaves" value={stats.pendingLeaves || 0} sub="Awaiting approval" color="#ff6b6b" />
-        <StatCard icon={DollarSign} label="Total Payroll" value={`₹${((stats.totalPayroll || 0)/100000).toFixed(1)}L`} sub="All time disbursed" color="#6c63ff" trend={5} />
-        <StatCard icon={TrendingUp} label="Active Jobs" value={stats.openJobs || 0} sub="Currently hiring" color="#00d4aa" />
-      </div>
+      <motion.div 
+        className="stats-grid"
+        initial="hidden"
+        animate="visible"
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
+        }}
+      >
+        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}><StatCard icon={Users} label="Total Employees" value={stats.totalEmployees || 0} sub={`${stats.activeEmployees || 0} active`} color="#6c63ff" trend={4} /></motion.div>
+        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}><StatCard icon={UserCheck} label="New This Month" value={stats.newHires || 0} sub="Recent joinings" color="#00d4aa" trend={12} /></motion.div>
+        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}><StatCard icon={Briefcase} label="Open Jobs" value={stats.openJobs || 0} sub={`${stats.totalJobs || 0} total`} color="#ff9a3c" trend={-2} /></motion.div>
+        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}><StatCard icon={ClipboardList} label="Applications" value={stats.totalApplications || 0} sub="All time" color="#ffd93d" trend={8} /></motion.div>
+        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}><StatCard icon={Calendar} label="Today Present" value={stats.todayAttendance || 0} sub="Attendance" color="#4ecdc4" /></motion.div>
+        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}><StatCard icon={AlertCircle} label="Pending Leaves" value={stats.pendingLeaves || 0} sub="Awaiting approval" color="#ff6b6b" /></motion.div>
+        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}><StatCard icon={DollarSign} label="Total Payroll" value={`₹${((stats.totalPayroll || 0)/100000).toFixed(1)}L`} sub="All time disbursed" color="#6c63ff" trend={5} /></motion.div>
+        <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0 } }}><StatCard icon={TrendingUp} label="Active Jobs" value={stats.openJobs || 0} sub="Currently hiring" color="#00d4aa" /></motion.div>
+      </motion.div>
 
       {/* Charts */}
-      <div className="charts-grid">
+      <motion.div 
+        className="charts-grid"
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.3 }}
+      >
         {/* Department Distribution */}
         <div className="card">
           <div className="card-header">
@@ -142,7 +161,8 @@ export default function AdminDashboard() {
             ))}
           </div>
         </div>
-      </div>
+      </motion.div>
+      </motion.div>
     </Layout>
   );
 }
