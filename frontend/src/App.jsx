@@ -34,7 +34,7 @@ const Unauthorized = () => (
     <div style={{ fontSize:80, marginBottom:20 }}>🚫</div>
     <h1 style={{ fontSize:32, fontWeight:900, marginBottom:12 }}>Access Denied</h1>
     <p style={{ color:'var(--text-secondary)', marginBottom:28 }}>You don't have permission to view this page.</p>
-    <a href="/login" style={{ padding:'12px 28px', background:'var(--accent)', borderRadius:10, fontWeight:700, color:'#fff', textDecoration:'none' }}>Go to Login</a>
+    <a href="/Employee_management_system/login" style={{ padding:'12px 28px', background:'var(--accent)', borderRadius:10, fontWeight:700, color:'#fff', textDecoration:'none' }}>Go to Login</a>
   </div>
 );
 

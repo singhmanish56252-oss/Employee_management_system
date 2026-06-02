@@ -16,10 +16,10 @@ API.interceptors.request.use((config) => {
 API.interceptors.response.use(
   (res) => res,
   (err) => {
-    if (err.response?.status === 401 && !window.location.pathname.startsWith('/login')) {
+    if (err.response?.status === 401 && !window.location.pathname.includes('/login')) {
       localStorage.removeItem('ems_token');
       localStorage.removeItem('ems_user');
-      window.location.href = '/login';
+      window.location.href = '/Employee_management_system/login';
     }
     return Promise.reject(err);
   }
